@@ -1,0 +1,49 @@
+{
+  "name": "protector",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "start": "tsc && node ./dist/index.js",
+    "dev": "nodemon main --dev",
+    "refresh": "pm2 restart Protector"
+  },
+  "keywords": [
+    "typescript",
+    "sern",
+    "discord.js"
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@sern/handler": "^2.5.0",
+    "@spark.ts/logger": "^1.4.0",
+    "colorette": "^2.0.19",
+    "discord.js": "^14.7.1",
+    "dotenv": "^16.0.3",
+    "enmap": "^5.9.5"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.25",
+    "typescript": "^4.9"
+  },
+  "imports": {
+    "#client": [
+      "./dist/index.js"
+    ],
+    "#logger": [
+      "./dist/helpers/logger.js"
+    ],
+    "#plugins": [
+      "./dist/plugins/index.js"
+    ],
+    "#adapters": [
+      "./dist/helpers/adapters.js"
+    ],
+    "#updater": [
+      "./dist/helpers/channelUpdater.js"
+    ]
+  },
+  "type": "module"
+}
