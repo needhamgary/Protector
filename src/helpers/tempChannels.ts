@@ -1,7 +1,8 @@
+import { client } from "#client";
 import { Collection } from "@discordjs/collection";
-import { Snowflake } from "discord.js";
+import { BaseGuildVoiceChannel, Snowflake } from "discord.js";
 import Enmap from "enmap";
-import { tempVoice } from "./util"
+import { tempVoice, tempVoiceName } from "./util.js";
 
 export class tempVoiceManager {
   public timeoutCache: Collection<Snowflake, NodeJS.Timeout> = new Collection();
@@ -21,12 +22,15 @@ export class tempVoiceManager {
     return this.database.filter((x) => x.channelId === channelId);
   }
 
-  public claimChannel(channelId: Snowflake, newOwnerId: Snowflake) {
+  public async claimChannel(channelId: Snowflake, newOwnerId: Snowflake) {
     const getOldData = this.database
       .filter((x) => x.channelId === channelId)
       .array()[0];
     this.database.delete(getOldData.ownerId);
     getOldData.ownerId = newOwnerId;
+    const name = (await client.users.fetch(newOwnerId)).username;
+    const chan = client.channels.cache.get(channelId) as BaseGuildVoiceChannel;
+    await chan.setName(`${name}'s Channel`);
     return this.database.set(newOwnerId, getOldData);
   }
 

@@ -1,11 +1,5 @@
-import {
-  eventModule,
-  EventType,
-} from "@sern/handler";
-import {
-  ChannelType,
-  VoiceState,
-} from "discord.js";
+import { eventModule, EventType } from "@sern/handler";
+import { ChannelType, VoiceState } from "discord.js";
 import { client, useContainer } from "#client";
 import { logger } from "#logger";
 import {
@@ -24,24 +18,34 @@ export default eventModule({
       oldState.member?.id! ?? newState.member?.id!,
       newState.guild.id!
     );
-    if (
-      oldState.channelId! === getUserPreviousChannel?.channelId! &&
-      !oldState.channel?.members.size!
-    ) {
-      const voiceTimeout = setTimeout(async () => {
-        try {
-          await client.channels.resolve(oldState.channelId!)?.delete();
-          container.deleteOldUserChannel(
-            newState.member?.user.id!,
-            oldState.channelId!
-          );
-          container.timeoutCache.delete(oldState.channelId!);
-        } catch (error) {
-          logger.error(`Failed to delete created temp voice channel.: ${error}`);
-        }
-      }, 500);
-      container.timeoutCache.set(oldState.channelId!, voiceTimeout);
+
+    if (oldState.channelId! === getUserPreviousChannel?.channelId!) {
+      if (oldState.channel?.members.size! < 1) {
+        const voiceTimeout = setTimeout(async () => {
+          try {
+            await client.channels.resolve(oldState.channelId!)?.delete();
+            container.deleteOldUserChannel(
+              newState.member?.user.id!,
+              oldState.channelId!
+            );
+            container.timeoutCache.delete(oldState.channelId!);
+          } catch (error) {
+            logger.error(
+              `Failed to delete created temp voice channel.: ${error}`
+            );
+          }
+        }, 500);
+        container.timeoutCache.set(oldState.channelId!, voiceTimeout);
+      }
+      if (oldState.channel?.members.size! > 0) {
+        client.channels.resolve(oldState.channelId!);
+        container.claimChannel(
+          oldState.channelId!,
+          oldState.channel?.members.first()?.id!
+        );
+      }
     }
+
     const parentVoiceChannel = client.channels.resolve(newState.channelId!);
     if (
       parentVoiceChannel! &&
@@ -90,19 +94,15 @@ export default eventModule({
           name: chanName,
           type: ChannelType.GuildVoice,
           parent: newState.channel?.parentId!,
-          permissionOverwrites: [
-            {
-              id: newState.member?.id!,
-              allow: userChannelPermissions,
-            },
-          ],
         });
+
         container.setUserChannel(newState.member?.id!, {
           ownerId: newState.member?.id!,
           channelId: createdTemporaryChannel.id!,
           parentChannelId: createdTemporaryChannel.parentId!,
           guildId: createdTemporaryChannel.guildId!,
         });
+
         newState.member?.voice
           .setChannel(createdTemporaryChannel)
           .catch(() => null);

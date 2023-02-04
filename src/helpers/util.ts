@@ -21,4 +21,4 @@ export const userChannelPermissions: PermissionResolvable[] = [
 ];
 export const tempVoiceName: string = "{user.username}'s Channel";
 export const parentTempVoiceId: Snowflake[] = [
-  "1070387554026803310"]
+  "1071423461651664978"]
