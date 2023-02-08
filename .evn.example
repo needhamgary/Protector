@@ -1,0 +1,17 @@
+#This set is for production
+#Currently tokens are the only used variables, safe to remove the rest as you wish.
+
+appid=
+pubkey=
+token=
+secret=
+
+#This set is for development
+
+devtoken=
+devappid=
+devsecret=
+devpubkey=
+
+#Insert your discord user id here
+ownerId=
