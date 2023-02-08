@@ -1,14 +1,22 @@
-import { client, devMode } from "#client";
+import { client, devMode, hold } from "#client";
 import { updateChannels } from "#updater";
 import { EventType, eventModule } from "@sern/handler";
-import { EmbedBuilder, GuildMember, Role } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  EmbedBuilder,
+  GuildMember,
+  Role,
+} from "discord.js";
 
 export default eventModule({
   type: EventType.Discord,
   name: "guildMemberAdd",
-  execute(member: GuildMember) {
+  async execute(member: GuildMember) {
     if (member.user.bot || devMode) return;
     const defRole = member.guild.roles.cache.get("1070569561071558677") as Role;
+    member.roles.add([defRole.id]);
     const memCount = member.guild.members.cache.filter(
       (m) => m.user.bot === false
     ).size;
@@ -39,8 +47,29 @@ export default eventModule({
         text: `${client.user!.username}`,
       },
     }).setTimestamp();
-    member.roles.add(defRole.id);
-    if (welcomeChannel) welcomeChannel.send({ embeds: [embed] });
-    updateChannels(member.client)
+
+    if (welcomeChannel) {
+      let emb = await welcomeChannel.send({ embeds: [embed] });
+      await hold(2000);
+      emb.reply({
+        content: `\`\`\`If you don't know your friend's discord tag, 
+      please get it first. You must have it to pass verification for my server. 
+      If you don't have a minecraft account, you will need to create one. 
+      I will set your discord nickname for you upon verification.\`\`\``,
+
+        components: [
+          new ActionRowBuilder<ButtonBuilder>({
+            components: [
+              new ButtonBuilder({
+                custom_id: "verify-click",
+                style: ButtonStyle.Success,
+                label: "Verify",
+              }),
+            ],
+          }),
+        ],
+      });
+    }
+    updateChannels(member.client);
   },
 });
