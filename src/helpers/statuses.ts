@@ -1,14 +1,16 @@
 import { devMode } from "#client";
+import { env } from "#util";
 import { ActivityType, Client, ClientPresenceStatus } from "discord.js";
 
 export function randomStatus(client: Client) {
+  const owner = client.users.cache.get(`${env.ownerId}`)?.username;
   if (devMode) return;
   const statues: [
     Exclude<ActivityType, ActivityType.Custom>,
     string,
     ClientPresenceStatus
   ][] = [
-    [ActivityType.Listening, "! Glitchy", "dnd"],
+    [ActivityType.Listening, `${owner}`, "dnd"],
     [ActivityType.Playing, "with @sern/cli", "idle"],
     [ActivityType.Watching, "sern bots", "dnd"],
     [ActivityType.Listening, "/commands", "online"],
