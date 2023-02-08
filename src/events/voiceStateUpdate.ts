@@ -1,11 +1,10 @@
 import { eventModule, EventType } from "@sern/handler";
 import { ChannelType, VoiceState } from "discord.js";
-import { client, useContainer } from "#client";
+import { client, devMode, useContainer } from "#client";
 import { logger } from "#logger";
 import {
   parentTempVoiceId,
   tempVoiceName,
-  userChannelPermissions,
   Util,
 } from "../helpers/util.js";
 
@@ -13,6 +12,7 @@ export default eventModule({
   type: EventType.Discord,
   name: "voiceStateUpdate",
   execute: async (oldState: VoiceState, newState: VoiceState): Promise<any> => {
+    if (devMode) return;
     const [container] = useContainer("temps");
     const getUserPreviousChannel = container.getUserChannel(
       oldState.member?.id! ?? newState.member?.id!,

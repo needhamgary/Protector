@@ -1,6 +1,6 @@
 import { require } from "#client";
 import { User } from "discord.js";
-import { ActivityType, PermissionResolvable, Snowflake } from "discord.js";
+import { PermissionResolvable, Snowflake } from "discord.js";
 import pkg from "glob";
 import { promisify } from "util";
 import { load } from "ts-dotenv";
@@ -43,8 +43,6 @@ export const env = load({
   appid: String,
   pubkey: String,
   secret: String,
-
-  chattoken: String,
 
   devtoken: String,
   devappid: String,

@@ -1,6 +1,5 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { publish } from "#plugins";
-import { logger } from "#logger";
 import { EmbedBuilder, GuildMember, User } from "discord.js";
 
 export default commandModule({

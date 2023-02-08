@@ -1,11 +1,7 @@
 import { devMode } from "#client";
 import {
   BaseGuildVoiceChannel,
-  ChannelType,
   Client,
-  Guild,
-  TextChannel,
-  VoiceBasedChannel,
 } from "discord.js";
 export function updateChannels(client: Client) {
   if (devMode) return;

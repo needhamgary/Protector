@@ -1,11 +1,10 @@
 import type { Logging, LogPayload } from "@sern/handler";
 import { Logger, LogLevel, LogStyle } from "@spark.ts/logger";
-import { bold, Color, italic, yellowBright } from "colorette";
+import { bold, italic } from "colorette";
 
 export class SparkAdapter implements Logging {
   private _spark!: Logger;
   private _date!: Date;
-  private _color!: Color;
   constructor(logLevel?: LogLevel, logStyle?: LogStyle) {
     console.clear();
     this._spark = new Logger({ logLevel, logStyle });

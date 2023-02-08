@@ -2,7 +2,7 @@ import { client } from "#client";
 import { Collection } from "@discordjs/collection";
 import { BaseGuildVoiceChannel, Snowflake } from "discord.js";
 import Enmap from "enmap";
-import { tempVoice, tempVoiceName } from "./util.js";
+import { tempVoice } from "./util.js";
 
 export class tempVoiceManager {
   public timeoutCache: Collection<Snowflake, NodeJS.Timeout> = new Collection();
