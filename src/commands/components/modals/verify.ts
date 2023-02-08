@@ -1,7 +1,8 @@
 import { hold } from "#client";
+import { logger } from "#logger";
 import { commandModule, CommandType } from "@sern/handler";
-import { Colors, EmbedBuilder, TextChannel } from "discord.js";
-
+import { APIRequest, Colors, EmbedBuilder, TextChannel } from "discord.js";
+import { fetch } from "undici";
 export default commandModule({
   type: CommandType.Modal,
   name: "verify-form",
@@ -21,13 +22,22 @@ export default commandModule({
       .map((user) => `${user.tag} (${user.id})`)
       .join(", ");
     if (!acceptedUsers.includes(inviter)) {
-      return modal.reply(
-        "That user is not in this guild. \
-       Please check spelling and formatting of your inviter's user tag. \
-       Must include `#0000` at the end."
+      return modal.reply({content:
+        `\`\`\`That user is not in this guild. 
+       Please check spelling and formatting of your inviter's user tag. 
+       Must include **#0000** at the end.\`\`\``, ephemeral:true}
       );
     }
-    modal.reply("Thank you for verifying. Wait 5 seconds for completion.");
+    const response = await fetch(
+      `https://api.mojang.com/users/profiles/minecraft/${mcusername}`
+    ).catch(() => null);
+    const data = (await response?.json()) as APIRequest;
+    if (!data)
+      return modal.reply(
+        "Something is wrong with the given minecraft name. Please check it and try again."
+      );
+    modal.reply({content: "Thank you for verifying. Wait 5 seconds for completion.", ephemeral:true});
+    
     await hold(5000);
     const embed = new EmbedBuilder({
       title: "Another Successful Verification!",
@@ -47,9 +57,18 @@ export default commandModule({
       },
     }).setTimestamp();
     await guild.systemChannel?.bulkDelete(5);
-    await member.roles.remove(newRole!.id);
-    await member.roles.add([verifiedRole!.id]);
-    await member.setNickname(mcusername!.toString());
+    try {
+      
+      await member.roles.remove(newRole!.id);
+      await member.roles.add([verifiedRole!.id]);
+      await member.setNickname(mcusername!.toString());
+      
+    } catch (error) {
+      logger.error(
+        "I was unable to edit the member properties. Is their role above mine?? \nThis message will only bee seen if someone has used /test button."
+      );
+    }
+    
     await modChannel.send({
       embeds: [embed],
     });
