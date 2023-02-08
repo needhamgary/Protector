@@ -24,7 +24,8 @@
     "discord.js": "^14.7.1",
     "enmap": "^5.9.5",
     "glob": "^8.1.0",
-    "ts-dotenv": "^0.9.1"
+    "ts-dotenv": "^0.9.1",
+    "undici": "^5.18.0"
   },
   "devDependencies": {
     "@types/glob": "^8.0.1",
