@@ -18,7 +18,7 @@
  */
 
 import { CommandType, CommandControlPlugin, controller } from "@sern/handler";
-const ownerIDs = ["697795666373640213"]; //! Fill your ID
+const ownerIDs = ["342314924804014081"]; //! Fill your ID
 export function ownerOnly() {
 	return CommandControlPlugin<CommandType.Both>((ctx, args) => {
 		if (ownerIDs.includes(ctx.user.id)) return controller.next();
