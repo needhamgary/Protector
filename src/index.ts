@@ -1,5 +1,5 @@
-import { config as dotenv } from "dotenv";
-import { Client, Partials } from "discord.js";
+import { env } from "#util";
+import { Client, Collection, Partials } from "discord.js";
 import {
   Dependencies,
   Sern,
@@ -16,10 +16,10 @@ import { tempVoiceManager } from "./helpers/tempChannels.js";
 export let devMode: boolean = false;
 if (process.argv[2] === "--dev") {
   devMode = true;
-  dotenv();
+  env;
   console.clear();
 } else {
-  dotenv();
+  env;
 }
 
 export const hold = wait.setTimeout;
@@ -55,7 +55,11 @@ export const client = new Client({
   ],
   allowedMentions: { repliedUser: false, users: [] },
 });
-
+export const components = {
+  buttons: new Collection<string, any>(),
+  modals: new Collection<string, any>(),
+  selectMenus: new Collection<string, any>(),
+};
 class ModuleStoreWithLogger extends ModuleStore {
   constructor(private logger: SparkAdapter) {
     super();
@@ -113,17 +117,17 @@ Sern.init({
   await hold(500);
 
   if (!devMode) {
-    client.login(process.env.token!.toString()).catch((e) => {
+    client.login(env.token!.toString()).catch((e) => {
       logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
     });
     await hold(1000);
-	// client.application?.commands.set([])
+    // client.application?.commands.set([])
   } else {
-    client.login(process.env.devtoken!.toString()).catch((e) => {
+    client.login(env.devtoken!.toString()).catch((e) => {
       logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
     });
     await hold(1000);
-	// client.application?.commands.set([])
+    // client.application?.commands.set([])
   }
 })();
-//client.login(process.env.token);
+//client.login(env.token);
