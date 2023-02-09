@@ -8,7 +8,7 @@
     "build": "tsc",
     "start": "tsc && node ./dist/index.js",
     "dev": "nodemon main --dev",
-    "refresh": "pm2 restart Protector"
+    "refresh": "pm2 restart Protector --update-env"
   },
   "keywords": [
     "typescript",
