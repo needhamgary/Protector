@@ -1,12 +1,23 @@
 import { hold } from "#client";
 import { logger } from "#logger";
+import { assertFields } from "#plugins";
 import { commandModule, CommandType } from "@sern/handler";
 import { APIRequest, Colors, EmbedBuilder, TextChannel } from "discord.js";
 import { fetch } from "undici";
+
 export default commandModule({
   type: CommandType.Modal,
   name: "verify-form",
   description: "Completes verification into server.",
+  plugins:[assertFields({
+    fields: {
+      mcusername: /a+n+c/,
+      inviter: /a+b+c/
+    },
+    failure: (errors, interaction) => {
+      interaction.reply(errors.join("\n"));
+    }
+  })],
   execute: async (modal) => {
     const { client } = modal;
     const mcusername = modal.fields.getTextInputValue("mcusername");

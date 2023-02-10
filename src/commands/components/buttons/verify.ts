@@ -11,6 +11,7 @@ export default commandModule({
   type: CommandType.Button,
   name: "verify-click",
   description: "Shows modal to verify.",
+  plugins:[],
   async execute(button) {
     const verifyModal = new ModalBuilder()
       .setTitle("Verification")
