@@ -10,7 +10,7 @@ import {
 export default commandModule({
   type: CommandType.Button,
   name: "verify-click",
-//   description: "Shows modal to verify.",
+  description: "Shows modal to verify.",
   async execute(button) {
     const verifyModal = new ModalBuilder()
       .setTitle("Verification")
