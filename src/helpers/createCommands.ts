@@ -5,6 +5,7 @@ import {
   Context,
   ControlPlugin,
   InitPlugin,
+  SernOptionsData,
   SlashOptions,
 } from "@sern/handler";
 import {
@@ -16,6 +17,7 @@ import {
 export function slashCommand(data: {
   name: string;
   description: string;
+  options?: (SernOptionsData)[],
   plugins: (InitPlugin | ControlPlugin)[];
   execute: (ctx: Context, options: ["slash", SlashOptions]) => Awaitable<unknown>;
 }) {
@@ -23,6 +25,7 @@ export function slashCommand(data: {
     type: CommandType.Slash,
     name: data.name,
     description: data.description,
+    options: data.options,
     plugins: [publish(), ...data.plugins],
     execute: data.execute,
   });
