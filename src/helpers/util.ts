@@ -41,4 +41,5 @@ export const env = load({
   devpubkey: String,
 
   ownerId: String,
+  mongouri: String
 });

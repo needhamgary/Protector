@@ -12,6 +12,7 @@ import wait from "node:timers/promises";
 import { createRequire } from "module";
 import { SparkAdapter } from "#adapters";
 import { tempVoiceManager } from "./helpers/tempChannels.js";
+import pkg from 'mongoose';
 
 export let devMode: boolean = false;
 if (process.argv[2] === "--dev") {
@@ -55,11 +56,6 @@ export const client = new Client({
   ],
   allowedMentions: { repliedUser: false, users: [] },
 });
-export const components = {
-  buttons: new Collection<string, any>(),
-  modals: new Collection<string, any>(),
-  selectMenus: new Collection<string, any>(),
-};
 class ModuleStoreWithLogger extends ModuleStore {
   constructor(private logger: SparkAdapter) {
     super();
@@ -71,6 +67,7 @@ interface MyDependencies extends Dependencies {
   "@sern/logger": Singleton<SparkAdapter>;
   "@sern/errors": Singleton<ErrorHandling>;
   "@sern/store": Singleton<ModuleStoreWithLogger>;
+  mongoose: Singleton<pkg.Connection>;
   temps: Singleton<tempVoiceManager>;
 }
 /**
@@ -97,7 +94,8 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
           ),
         };
       })
-      .add({ temps: single(() => new tempVoiceManager()) }),
+      .add({ mongoose: single(() => pkg.connection)})
+      .add({ temps: single(() => new tempVoiceManager()) })
 });
 
 //View docs for all options

@@ -8,6 +8,7 @@
     "build": "tsc",
     "start": "tsc && node ./dist/index.js",
     "dev": "nodemon main --dev",
+    "production": "pm2 start dist/index.js --name Protector --update-env",
     "refresh": "pm2 restart Protector --update-env"
   },
   "keywords": [
@@ -24,6 +25,7 @@
     "discord.js": "^14.7.1",
     "enmap": "^5.9.5",
     "glob": "^8.1.0",
+    "mongoose": "^6.9.1",
     "ts-dotenv": "^0.9.1",
     "undici": "^5.18.0"
   },
