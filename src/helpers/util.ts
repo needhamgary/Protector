@@ -14,15 +14,6 @@ export class Util {
       .replace("{user.username}", user?.username!)
       .replace("{user.tag}", user?.tag!);
   }
-  static async loadFiles(dir: string) {
-    const files = await PG(
-      `${process.cwd().replace(/\\/g, "/")}/${dir}/**/*.js`
-    );
-    files.forEach(
-      (file: string) => delete require.cache[require.resolve(file)]
-    );
-    return files;
-  }
 }
 
 export interface tempVoice {
