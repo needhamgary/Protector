@@ -1,5 +1,5 @@
 import { env } from "#util";
-import { Client, Collection, Partials } from "discord.js";
+import { Client, Partials } from "discord.js";
 import {
   Dependencies,
   Sern,
