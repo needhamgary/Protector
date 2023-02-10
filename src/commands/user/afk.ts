@@ -6,8 +6,8 @@ import {
   TextInputBuilder,
   TextInputStyle,
 } from "discord.js";
-import { slashCommand } from "../helpers/createCommands.js";
-import {afk} from "../mongo/models/index.js";
+import { slashCommand } from "../../helpers/createCommands.js";
+import {afk} from "../../mongo/models/index.js";
 
 export default slashCommand({
   name: "afk",
