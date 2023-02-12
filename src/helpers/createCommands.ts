@@ -23,7 +23,6 @@ import {
 } from "discord.js";
 
 export function slashCommand(data: {
-  name: string;
   description: string;
   options?: (SernOptionsData)[],
   plugins: (InitPlugin | ControlPlugin)[];
@@ -31,7 +30,6 @@ export function slashCommand(data: {
 }) {
   return commandModule({
     type: CommandType.Slash,
-    name: data.name,
     description: data.description,
     options: data.options,
     plugins: [publish(), ...data.plugins],

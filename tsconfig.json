@@ -16,12 +16,24 @@
 		"forceConsistentCasingInFileNames": true,
 		"allowJs": true,
 		"paths": {
-			"#client": ["src/index"],
-			"#logger": ["src/helpers/logger"],
-			"#plugins": ["src/plugins/index"],
-			"#adapters": ["src/helpers/adapters"],
-			"#updater": ["src/helpers/channelUpdater"],
-			"#util" : ["src/helpers/util"]
+			"#client": [
+				"src/index"
+			],
+			"#logger": [
+				"src/helpers/logger"
+			],
+			"#plugins": [
+				"src/plugins/index"
+			],
+			"#adapters": [
+				"src/helpers/adapters"
+			],
+			"#updater": [
+				"src/helpers/channelUpdater"
+			],
+			"#util": [
+				"src/helpers/util"
+			]
 		}
 	}
 }
