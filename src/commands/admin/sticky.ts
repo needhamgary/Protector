@@ -16,7 +16,7 @@ import {
 
 export default commandModule({
   type: CommandType.Slash,
-  plugins: [publish(), requirePermission("both", ["Administrator"])],
+  plugins: [publish(), requirePermission("both", ["ManageMessages"])],
   description: "manage the current channel's sticky message",
   options: [
     {
@@ -48,16 +48,19 @@ export default commandModule({
   execute: async (ctx, [, options]) => {
     let message = options.getString("message");
     let amount = options.getNumber("count") || 4;
-
     let embed = new EmbedBuilder({
-      title: `This is a stick message from your admins.`,
+      title: `This is a sticky message from your admins.`,
       color: Colors.Blue,
       footer: {
         text: ctx.user.tag,
         iconURL: ctx.user.avatarURL()!,
       },
     });
-
+    if (message?.includes("uptime")) {
+      const stamp =`${ctx.client.readyTimestamp! / 1000}`;
+      
+      message = message.replace("uptime", `My last restart was: <t:${parseInt(stamp)}:R>`)
+    }
     try {
       switch (options.getSubcommand()) {
         case "stick":
