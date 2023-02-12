@@ -1,6 +1,6 @@
 import { EventType, eventModule } from "@sern/handler";
 import { Message } from "discord.js";
-import { afk } from "../../mongo/models/index.js";
+import afk from "../../mongo/models/afk.js";
 
 export default eventModule({
   type: EventType.Discord,

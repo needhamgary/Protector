@@ -7,10 +7,9 @@ import {
   TextInputStyle,
 } from "discord.js";
 import { slashCommand } from "../../helpers/createCommands.js";
-import {afk} from "../../mongo/models/index.js";
+import afk from "../../mongo/models/afk.js";
 
 export default slashCommand({
-  name: "afk",
   description: "set or remove your afk status.",
   plugins: [],
   options: [
