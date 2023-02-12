@@ -6,10 +6,7 @@ import {
   EmbedBuilder,
   Message,
 } from "discord.js";
-import {
-  deleteMessage,
-  makeSticky,
-} from "../../mongo/models/sticky.js";
+import { deleteMessage, makeSticky } from "../../mongo/models/sticky.js";
 
 export default commandModule({
   type: CommandType.Slash,
@@ -54,9 +51,12 @@ export default commandModule({
       },
     });
     if (message?.includes("uptime")) {
-      const stamp =`${ctx.client.readyTimestamp! / 1000}`;
-      
-      message = message.replace("uptime", `My last restart was: <t:${parseInt(stamp)}:R>`)
+      const stamp = `${ctx.client.readyTimestamp! / 1000}`;
+
+      message = message.replace(
+        "uptime",
+        `My last restart was: <t:${parseInt(stamp)}:R>`
+      );
     }
     try {
       switch (options.getSubcommand()) {
@@ -72,20 +72,17 @@ export default commandModule({
             sens.id!,
             amount,
             ctx.channel!
-          )
-            .then(async () => {
-              return await ctx.reply({
-                content: `There is a sticky message in this channel already. Please unstick your message before making a new one.`,
-                ephemeral: true,
-              });
-            })
-            .catch(() => {
-              sens.deletable
-                ? sens.delete()
-                : setTimeout(async () => {
-                    await sens.delete();
-                  }, 3000);
+          ).catch(async () => {
+            sens.deletable
+              ? sens.delete()
+              : setTimeout(async () => {
+                  await sens.delete();
+                }, 3000);
+            return await ctx.reply({
+              content: `There is a sticky message in this channel already. Please unstick your message before making a new one.`,
+              ephemeral: true,
             });
+          });
           break;
 
         case "unstick":

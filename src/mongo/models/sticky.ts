@@ -57,8 +57,8 @@ export async function makeSticky(
 ) {
   let data = await sticky.findOne({ _id: channelID });
   if (data) {
-    await channel.messages.fetch(channel.lastMessageId!).then((m) => {
-      m.delete();
+    await channel.messages.fetch(channel.lastMessageId!).then(async (m) => {
+      await m.delete();
     });
   }
   if (!data) {
