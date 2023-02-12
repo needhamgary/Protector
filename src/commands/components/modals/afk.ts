@@ -1,6 +1,6 @@
 import { assertFields } from "#plugins";
 import { newModal } from "../../../helpers/createCommands.js";
-import { afk } from "../../../mongo/models/index.js";
+import afk from "../../../mongo/models/afk.js";
 
 export default newModal({
   name: "afk-status",
