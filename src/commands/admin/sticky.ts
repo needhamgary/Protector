@@ -5,12 +5,9 @@ import {
   Colors,
   EmbedBuilder,
   Message,
-  TextChannel,
 } from "discord.js";
 import {
-  sticky,
   deleteMessage,
-  findSticky,
   makeSticky,
 } from "../../mongo/models/sticky.js";
 
