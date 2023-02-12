@@ -45,17 +45,13 @@ export default commandModule({
     let embed = new EmbedBuilder({
       title: `This is a sticky message from your admins.`,
       color: Colors.Blue,
-      footer: {
-        text: ctx.user.tag,
-        iconURL: ctx.user.avatarURL()!,
-      },
     });
     if (message?.includes("uptime")) {
       const stamp = `${ctx.client.readyTimestamp! / 1000}`;
 
       message = message.replace(
         "uptime",
-        `My last restart was: <t:${parseInt(stamp)}:R>`
+        `Protector Uptime:  <t:${parseInt(stamp)}:R>`
       );
     }
     try {
@@ -71,17 +67,13 @@ export default commandModule({
             message!,
             sens.id!,
             amount,
-            ctx.channel!
+            ctx
           ).catch(async () => {
             sens.deletable
               ? sens.delete()
               : setTimeout(async () => {
                   await sens.delete();
                 }, 3000);
-            return await ctx.reply({
-              content: `There is a sticky message in this channel already. Please unstick your message before making a new one.`,
-              ephemeral: true,
-            });
           });
           break;
 

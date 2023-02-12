@@ -1,3 +1,4 @@
+import { Context } from "@sern/handler";
 import { TextBasedChannel } from "discord.js";
 import { model, Schema } from "mongoose";
 
@@ -26,9 +27,7 @@ export const sticky = model(
 );
 
 export async function findSticky(channelID: string) {
-  let data = await sticky.findOne({ _id: channelID });
-  if (!data) return null;
-  return data;
+  return await sticky.findOne({ _id: channelID }) 
 }
 
 export async function deleteMessage(
@@ -53,12 +52,16 @@ export async function makeSticky(
   message: string,
   messageID: string,
   max: number,
-  channel: TextBasedChannel
+  ctx: Context
 ) {
   let data = await sticky.findOne({ _id: channelID });
   if (data) {
-    await channel.messages.fetch(channel.lastMessageId!).then(async (m) => {
+    await ctx.channel?.messages.fetch(ctx.channel?.lastMessageId!).then(async (m) => {
       await m.delete();
+      return await ctx.reply({
+        content: `There is a sticky message in this channel already. Please unstick your message before making a new one.`,
+        ephemeral: true,
+      });
     });
   }
   if (!data) {
@@ -68,6 +71,7 @@ export async function makeSticky(
       LastMessageId: messageID,
       MaxCount: max,
     }).save();
+    await ctx.reply({content: `I've created the sticky for you at\nMessage ID: ${messageID}`, ephemeral: true})
     return newData;
   }
 }
