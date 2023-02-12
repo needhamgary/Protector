@@ -1,17 +1,24 @@
 import { devMode } from "#client";
-import { Client, TextChannel } from "discord.js";
-
+import { Client, Colors, EmbedBuilder, TextChannel } from "discord.js";
+import { findSticky } from "../mongo/models/sticky.js";
 export async function updateUptime(client: Client) {
   if (devMode) return;
+
   const stamp = `${client.readyTimestamp! / 1000}`;
   const guild = client.guilds.cache.get("1070233836354539600");
 
-  let uptimeChannel = guild?.channels.cache.find(
-    (c) => c.id === "1070802110159015936"
-  ) as TextChannel;
+  let uptimeChannel = guild?.channels.cache.get("1074377026103955506") as TextChannel;
 
-  uptimeChannel.messages.fetch().then((messages) => {
-    let msg = messages.get("1070954005636857876");
-    msg?.edit({ content: `Protector Uptime: <t:${parseInt(stamp)}:R>` });
+  const data = await findSticky(uptimeChannel.id);
+
+  let embed = new EmbedBuilder({
+    title: `This is a sticky message from your admins.`,
+    color: Colors.Blue,
+    description: `Protector Uptime: <t:${parseInt(stamp)}:R>`,
   });
+  if (data) {
+    (await uptimeChannel.messages.fetch(data.LastMessageId)).edit({
+      embeds: [embed],
+    });
+  }
 }

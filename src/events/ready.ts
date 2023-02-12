@@ -17,7 +17,8 @@ export default eventModule({
     randomStatus(client);
     setInterval(() => {
       updateChannels(client);
+      updateUptime(client);
     }, 15000);
-    updateUptime(client);
+   
   },
 });
