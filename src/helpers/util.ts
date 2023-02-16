@@ -1,6 +1,5 @@
 import { require } from "#client";
-import { User } from "discord.js";
-import { PermissionResolvable, Snowflake } from "discord.js";
+import type { User, PermissionResolvable, Snowflake } from "discord.js";
 import pkg from "glob";
 import { promisify } from "util";
 import { load } from "ts-dotenv";
