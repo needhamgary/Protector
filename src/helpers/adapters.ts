@@ -5,7 +5,7 @@ import { bold, italic } from "colorette";
 export class SparkAdapter implements Logging {
   private _spark!: Logger;
   private _date!: Date;
-  constructor(logLevel?: LogLevel, logStyle?: LogStyle) {
+  constructor(logLevel: LogLevel, logStyle: LogStyle) {
     console.clear();
     this._spark = new Logger({ logLevel, logStyle });
     this._date = new Date();
