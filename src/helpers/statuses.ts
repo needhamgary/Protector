@@ -35,3 +35,8 @@ function shuffleArray<T>(array: T[]) {
   }
   return [...array];
 }
+
+/**
+ * This file has been duplicated from sern Community Bot to help publicize sern
+ * Not intended to plagiarize from existing bot
+ */
