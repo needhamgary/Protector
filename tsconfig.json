@@ -1,43 +1,31 @@
 {
-	"compilerOptions": {
-		"resolveJsonModule": true,
-		"moduleResolution": "node",
-		"target": "ESNext",
-		"module": "ESNext",
-		"outDir": "dist",
-		"rootDir": "src",
-		"strict": true,
-		"baseUrl": ".",
-		"esModuleInterop": true,
-		"noImplicitAny": true,
-		"strictNullChecks": true,
-		"importsNotUsedAsValues": "error",
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true,
-		"allowJs": true,
-		"allowUnreachableCode": true,
-		"allowUnusedLabels": true,
-		"alwaysStrict": true,
-		"exactOptionalPropertyTypes": true,
-		"paths": {
-			"#client": [
-				"src/index"
-			],
-			"#logger": [
-				"src/helpers/logger"
-			],
-			"#plugins": [
-				"src/plugins/index"
-			],
-			"#adapters": [
-				"src/helpers/adapters"
-			],
-			"#updater": [
-				"src/helpers/channelUpdater"
-			],
-			"#util": [
-				"src/helpers/util"
-			]
-		}
-	}
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "target": "ESNext",
+    "module": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "importsNotUsedAsValues": "preserve",
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "allowUnreachableCode": true,
+    "allowUnusedLabels": true,
+    "alwaysStrict": true,
+    "exactOptionalPropertyTypes": true,
+    "paths": {
+      "#client": ["src/index"],
+      "#logger": ["src/helpers/logger"],
+      "#plugins": ["src/plugins/index"],
+      "#adapters": ["src/helpers/adapters"],
+      "#updater": ["src/helpers/channelUpdater"],
+      "#util": ["src/helpers/util"]
+    }
+  }
 }
