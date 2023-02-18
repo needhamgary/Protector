@@ -31,7 +31,7 @@ export function slashCommand(data: {
   return commandModule({
     type: CommandType.Slash,
     description: data.description,
-    options: data.options,
+    options: data.options!,
     plugins: [publish(), ...data.plugins],
     execute: data.execute,
   });
@@ -50,7 +50,7 @@ export function bothCommand(data: {
     type: CommandType.Both,
     name: data.name,
     description: data.description,
-    options: data.options,
+    options: data.options!,
     plugins: [publish(), ...data.plugins],
     execute: data.execute,
   });
