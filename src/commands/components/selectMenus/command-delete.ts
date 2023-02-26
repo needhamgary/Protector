@@ -1,10 +1,11 @@
 import { buttonConfirmation, ownerOnly } from "#plugins";
+import { env } from "#util";
 import { commandModule, CommandType } from "@sern/handler";
 
 export default commandModule({
   type: CommandType.StringSelect,
   name: "command-delete",
-  plugins: [buttonConfirmation(), ownerOnly()],
+  plugins: [buttonConfirmation(), ownerOnly([env.ownerId])],
   execute: async (ctx) => {
     const id = ctx.values[0];
     const command = await ctx.client.application?.commands.fetch(`${id}`);
@@ -16,3 +17,4 @@ export default commandModule({
     });
   },
 });
+

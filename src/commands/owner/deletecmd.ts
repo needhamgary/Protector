@@ -1,4 +1,5 @@
 import { ownerOnly, publish, buttonConfirmation } from "#plugins";
+import { env } from "#util";
 import { commandModule, CommandType } from "@sern/handler";
 import {
   ActionRowBuilder,
@@ -10,7 +11,7 @@ import {
 
 export default commandModule({
   type: CommandType.Slash,
-  plugins: [ownerOnly(), publish(), buttonConfirmation()],
+  plugins: [ownerOnly([env.ownerId]), publish(), buttonConfirmation()],
   description: "removes application commands by id",
   options: [
     {
@@ -70,16 +71,18 @@ export default commandModule({
           }),
         });
 
-      commands.forEach(async (command) => {
-        await command.delete();
-      });
+        commands.forEach(async (command) => {
+          await command.delete();
+        });
 
-      await ctx.interaction.followUp({
-        content: "I have deleted all of my commands now. I will re-create them when I am restarted.",
-        ephemeral: true,
-        embeds: [embed],
-      });
-      break;
+        await ctx.interaction.followUp({
+          content:
+            "I have deleted all of my commands now. I will re-create them when I am restarted.",
+          ephemeral: true,
+          embeds: [embed],
+        });
+        break;
     }
   },
 });
+
