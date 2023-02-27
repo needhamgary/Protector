@@ -11,7 +11,8 @@ export default eventModule({
     );
     const mee = (await message.client.users.fetch(env.ownerId)) as User;
     if (message.channel.id === channel?.id) {
-      (await mee.createDM(true)).send(`Github has posted to ${channel}`);
+      await mee.send(`Github has posted to ${channel}`);
     }
   },
 });
+
