@@ -37,8 +37,9 @@ export default eventModule({
             m.delete();
           }, 3000);
         });
-      await await noAfk?.delete();
+      await noAfk?.deleteOne();
       return;
     }
   },
 });
+
