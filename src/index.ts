@@ -13,6 +13,7 @@ import { createRequire } from "module";
 import { SparkAdapter } from "#adapters";
 import { tempVoiceManager } from "./helpers/tempChannels.js";
 import pkg from "mongoose";
+import path from "path";
 
 export let devMode: boolean = false;
 if (process.argv[2] === "--dev") {
@@ -78,7 +79,14 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
         };
       })
       .add({ mongoose: single(() => pkg.connection) })
-      .add({ temps: single(() => new tempVoiceManager()) }),
+      .add({ temps: single(() => new tempVoiceManager()) })
+      .addDisposer({
+        mongoose: (ctx) => {
+          ctx.destroy(true);
+        },
+        "@sern/client": (ctx) => ctx.destroy(),
+        process: (ctx) => ctx.exit(1),
+      }),
 });
 
 //View docs for all options
@@ -92,22 +100,23 @@ Sern.init({
 });
 
 (async () => {
-const [logger] = useContainer("@sern/logger");
-client.setMaxListeners(0);
-logger.info(`[Client] Attempting to connect to Discord...`);
-await hold(500);
+  const [logger] = useContainer("@sern/logger");
+  client.setMaxListeners(0);
+  logger.info(`[Client] Attempting to connect to Discord...`);
+  await hold(500);
 
-if (!devMode) {
-  client.login(env.token!.toString()).catch((e) => {
-    logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
-  });
-  await hold(1000);
-} else {
-  client.login(env.devtoken!.toString()).catch((e) => {
-    logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
-  });
-  await hold(1000);
-  client.application?.commands.set([]);
-}
+  if (!devMode) {
+    client.login(env.token!.toString()).catch((e) => {
+      logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
+    });
+    await hold(1000);
+  } else {
+    client.login(env.devtoken!.toString()).catch((e) => {
+      logger.error(`[Client] Unable to connect to Discord.... Error: ${e}`);
+    });
+    await hold(1000);
+    client.application?.commands.set([]);
+  }
 })();
 //client.login(env.token);
+
