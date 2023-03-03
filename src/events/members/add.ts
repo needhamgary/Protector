@@ -51,7 +51,7 @@ export default eventModule({
     if (welcomeChannel) {
       let emb = await welcomeChannel.send({ embeds: [embed] });
       await hold(2000);
-      emb.reply({
+      let rep = await emb.reply({
         content: `\`\`\`If you don't know your friend's discord tag, 
       please get it first. You must have it to pass verification for my server. 
       If you don't have a minecraft account, you will need to create one. 
@@ -69,7 +69,12 @@ export default eventModule({
           }),
         ],
       });
+      setTimeout(async () => {
+        await emb.delete();
+        await rep.delete();
+      }, 5 * 60000);
     }
     updateChannels(member.client);
   },
 });
+

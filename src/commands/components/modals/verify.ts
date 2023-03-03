@@ -1,6 +1,7 @@
 import { hold } from "#client";
 import { logger } from "#logger";
 import { assertFields } from "#plugins";
+import { whitelistAdd } from "#util";
 import { commandModule, CommandType } from "@sern/handler";
 import { APIRequest, Colors, EmbedBuilder, TextChannel } from "discord.js";
 import { fetch } from "undici";
@@ -9,16 +10,17 @@ export default commandModule({
   type: CommandType.Modal,
   name: "verify-form",
   description: "Completes verification into server.",
-  plugins:[assertFields({
-    fields: {
-      mcusername: /a+n+c/,
-      inviter: /a+b+c/
-    },
-    failure: (errors, interaction) => {
-      interaction.reply(errors.join("\n"));
-    }
-  })],
+  // plugins:[assertFields({
+  //   fields: {
+  //     mcusername: /a+b+c/,
+  //     inviter: /a+b+c/
+  //   },
+  //   failure: (errors, interaction) => {
+  //     interaction.reply(errors.join("\n"));
+  //   }
+  // })],
   execute: async (modal) => {
+    await modal.deferReply({ fetchReply: true, ephemeral: true });
     const { client } = modal;
     const mcusername = modal.fields.getTextInputValue("mcusername");
     const inviter = modal.fields.getTextInputValue("inviter");
@@ -30,25 +32,28 @@ export default commandModule({
     let newRole = await guild.roles.fetch("1070569561071558677");
     let member = await guild.members.fetch(modal.user.id);
     const acceptedUsers: string | string[][] = client.users.cache
-      .map((user) => `${user.tag} (${user.id})`)
+      .map((user) => user.tag)
       .join(", ");
     if (!acceptedUsers.includes(inviter)) {
-      return modal.reply({content:
-        `\`\`\`That user is not in this guild. 
+      return modal.editReply({
+        content: `\`\`\`That user is not in this guild. 
        Please check spelling and formatting of your inviter's user tag. 
-       Must include **#0000** at the end.\`\`\``, ephemeral:true}
-      );
+       Must include **#0000** at the end.\`\`\``,
+      });
     }
     const response = await fetch(
       `https://api.mojang.com/users/profiles/minecraft/${mcusername}`
-    ).catch(() => null);
-    const data = (await response?.json()) as APIRequest;
+    ).catch((err: Error) => { modal.editReply(err.message) });
+    const data = (await response?.json() as APIRequest)
+      
     if (!data)
-      return modal.reply(
+      return modal.editReply(
         "Something is wrong with the given minecraft name. Please check it and try again."
       );
-    modal.reply({content: "Thank you for verifying. Wait 5 seconds for completion.", ephemeral:true});
-    
+    modal.editReply({
+      content: "Thank you for verifying. Wait 5 seconds for completion.",
+    });
+
     await hold(5000);
     const embed = new EmbedBuilder({
       title: "Another Successful Verification!",
@@ -63,25 +68,25 @@ export default commandModule({
         url: `${modal.user.avatar ? modal.user.displayAvatarURL() : null}`,
       },
       footer: {
-        text: `${modal.client.user.username}`,
+        text: modal.client.user.username.toString(),
         iconURL: modal.client.user.displayAvatarURL(),
       },
     }).setTimestamp();
-    await guild.systemChannel?.bulkDelete(5);
     try {
-      
-      await member.roles.remove(newRole!.id);
+      await guild.systemChannel?.bulkDelete(5, true);
+      await member.roles.remove([newRole!.id]);
       await member.roles.add([verifiedRole!.id]);
       await member.setNickname(mcusername!.toString());
-      
+      await whitelistAdd(modal.client, mcusername.toString());
     } catch (error) {
       logger.error(
         "I was unable to edit the member properties. Is their role above mine?? \nThis message will only bee seen if someone has used /test button."
       );
     }
-    
+
     await modChannel.send({
       embeds: [embed],
     });
   },
 });
+

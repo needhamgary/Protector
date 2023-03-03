@@ -1,5 +1,11 @@
 import { require } from "#client";
-import type { User, PermissionResolvable, Snowflake } from "discord.js";
+import type {
+  User,
+  PermissionResolvable,
+  Snowflake,
+  TextChannel,
+  Client,
+} from "discord.js";
 import pkg from "glob";
 import { promisify } from "util";
 import { load } from "ts-dotenv";
@@ -40,5 +46,13 @@ export const env = load({
   devpubkey: String,
 
   ownerId: String,
-  mongouri: String
+  mongouri: String,
 });
+
+export async function whitelistAdd(client: Client, user: string) {
+  const chan = (await client.channels.fetch(
+    `1070256657499693066`
+  )) as TextChannel;
+  return chan.send(`whitelist add ${user}`);
+}
+
