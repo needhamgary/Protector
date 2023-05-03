@@ -6,12 +6,7 @@ import type {
   TextChannel,
   Client,
 } from "discord.js";
-import pkg from "glob";
-import { promisify } from "util";
 import { load } from "ts-dotenv";
-
-const { glob } = pkg;
-const PG = promisify(glob);
 
 export class Util {
   static parseChannelName(name: string, user?: User) {

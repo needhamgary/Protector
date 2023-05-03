@@ -24,7 +24,6 @@
     "colorette": "^2.0.20",
     "discord.js": "^14.10.2",
     "enmap": "^5.9.5",
-    "glob": "^10.2.2",
     "mongoose": "^7.1.0",
     "ts-dotenv": "^0.9.1",
     "undici": "^5.22.0"
