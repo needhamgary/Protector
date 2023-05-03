@@ -43,6 +43,7 @@ node_modules/
 jspm_packages/
 dist/
 data/
+package-lock.json
 
 # TypeScript v1 declaration files
 typings/
