@@ -4,7 +4,7 @@ import {
   ApplicationCommandOptionType,
   Colors,
   EmbedBuilder,
-  Message,
+  type Message,
 } from "discord.js";
 import { deleteMessage, makeSticky } from "../../mongo/models/sticky.js";
 
@@ -95,3 +95,4 @@ export default commandModule({
     }
   },
 });
+

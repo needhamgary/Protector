@@ -1,6 +1,6 @@
 import { env } from "#util";
 import { EventType, eventModule } from "@sern/handler";
-import { ChannelType, Message, User } from "discord.js";
+import { ChannelType, type Message, type User } from "discord.js";
 
 export default eventModule({
   type: EventType.Discord,

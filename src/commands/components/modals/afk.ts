@@ -8,7 +8,7 @@ export default newModal({
   plugins: [
     assertFields({
       fields: {
-        reason: /a+n+c/,
+        reason: /a+b+c/,
       },
       failure: (errors, interaction) => {
         interaction.reply(errors.join("\n"));
@@ -27,3 +27,4 @@ export default newModal({
     return await modal.reply({ content: "You are now afk.", ephemeral: true });
   },
 });
+

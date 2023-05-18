@@ -1,24 +1,19 @@
 import { hold } from "#client";
 import { logger } from "#logger";
-import { assertFields } from "#plugins";
 import { whitelistAdd } from "#util";
 import { commandModule, CommandType } from "@sern/handler";
-import { APIRequest, Colors, EmbedBuilder, TextChannel } from "discord.js";
+import {
+  type APIRequest,
+  Colors,
+  EmbedBuilder,
+  type TextChannel,
+} from "discord.js";
 import { fetch } from "undici";
 
 export default commandModule({
   type: CommandType.Modal,
   name: "verify-form",
   description: "Completes verification into server.",
-  // plugins:[assertFields({
-  //   fields: {
-  //     mcusername: /a+b+c/,
-  //     inviter: /a+b+c/
-  //   },
-  //   failure: (errors, interaction) => {
-  //     interaction.reply(errors.join("\n"));
-  //   }
-  // })],
   execute: async (modal) => {
     await modal.deferReply({ fetchReply: true, ephemeral: true });
     const { client } = modal;
@@ -43,9 +38,11 @@ export default commandModule({
     }
     const response = await fetch(
       `https://api.mojang.com/users/profiles/minecraft/${mcusername}`
-    ).catch((err: Error) => { modal.editReply(err.message) });
-    const data = (await response?.json() as APIRequest)
-      
+    ).catch((err: Error) => {
+      modal.editReply(err.message);
+    });
+    const data = (await response?.json()) as APIRequest;
+
     if (!data)
       return modal.editReply(
         "Something is wrong with the given minecraft name. Please check it and try again."

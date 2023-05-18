@@ -1,7 +1,7 @@
 import {
   ActionRowBuilder,
   ApplicationCommandOptionType,
-  ModalActionRowComponentBuilder,
+  type ModalActionRowComponentBuilder,
   ModalBuilder,
   TextInputBuilder,
   TextInputStyle,
@@ -25,13 +25,15 @@ export default slashCommand({
     },
   ],
   async execute(ctx, [, options]) {
-
-    const isAfk = await afk.findOne({_id: ctx.user.id});
+    const isAfk = await afk.findOne({ _id: ctx.user.id });
     const reason = isAfk?.reason;
     switch (options.getSubcommand()) {
       case "set":
         if (isAfk) {
-          return await ctx.reply({content: `You are already afk for Reason: \`${reason}\``, ephemeral: true});
+          return await ctx.reply({
+            content: `You are already afk for Reason: \`${reason}\``,
+            ephemeral: true,
+          });
         }
         const afkModal = new ModalBuilder()
           .setTitle("You're setting your afk.")
@@ -54,13 +56,20 @@ export default slashCommand({
         break;
 
       case "remove":
-            if (!isAfk) {
-              return await ctx.reply({content: `You're not currently afk.`, ephemeral: true});
-            }
-            await afk.findByIdAndDelete(ctx.user.id)
-            return await ctx.reply({content: `You are no longer afk. Thank you for returning to us!`, ephemeral: true});
+        if (!isAfk) {
+          return await ctx.reply({
+            content: `You're not currently afk.`,
+            ephemeral: true,
+          });
+        }
+        await afk.findByIdAndDelete(ctx.user.id);
+        return await ctx.reply({
+          content: `You are no longer afk. Thank you for returning to us!`,
+          ephemeral: true,
+        });
 
         break;
     }
   },
 });
+

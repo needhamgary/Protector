@@ -7,7 +7,7 @@ import {
   ButtonStyle,
   EmbedBuilder,
   GuildMember,
-  Role,
+  type Role,
 } from "discord.js";
 
 export default eventModule({

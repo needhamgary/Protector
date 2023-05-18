@@ -6,7 +6,7 @@ import {
   ApplicationCommandOptionType,
   ComponentType,
   EmbedBuilder,
-  StringSelectMenuBuilder,
+  type StringSelectMenuBuilder,
 } from "discord.js";
 
 export default commandModule({

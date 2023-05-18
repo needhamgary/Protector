@@ -1,5 +1,5 @@
 import { Context } from "@sern/handler";
-import { TextBasedChannel } from "discord.js";
+import { type TextBasedChannel } from "discord.js";
 import { model, Schema } from "mongoose";
 
 const reqString = {
@@ -10,7 +10,7 @@ const reqString = {
 export const sticky = model(
   "sticky",
   new Schema({
-    //   //channelID
+    //channelID
     _id: reqString,
     Message: reqString,
     LastMessageId: reqString,

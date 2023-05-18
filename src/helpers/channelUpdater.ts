@@ -1,8 +1,5 @@
 import { devMode } from "#client";
-import {
-  BaseGuildVoiceChannel,
-  Client,
-} from "discord.js";
+import { type BaseGuildVoiceChannel, Client } from "discord.js";
 export function updateChannels(client: Client) {
   if (devMode) return;
   client.guilds.cache.forEach(async (guild) => {
@@ -28,3 +25,4 @@ export function updateChannels(client: Client) {
     users.setName(`Total Members: ${totalCount.toLocaleString()}`);
   });
 }
+

@@ -1,4 +1,3 @@
-// import { logger } from "../../index.js";
 import { EventType, eventModule } from "@sern/handler";
 import { client, hold } from "#client";
 import { logger } from "#logger";
@@ -19,6 +18,6 @@ export default eventModule({
       updateChannels(client);
       updateUptime(client);
     }, 15000);
-   
   },
 });
+

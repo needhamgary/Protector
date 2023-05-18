@@ -1,6 +1,6 @@
 import { commandModule, CommandType } from "@sern/handler";
 import { publish } from "#plugins";
-import { EmbedBuilder, GuildMember, User } from "discord.js";
+import { EmbedBuilder, type GuildMember, type User } from "discord.js";
 
 export default commandModule({
   type: CommandType.CtxUser,

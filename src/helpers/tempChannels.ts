@@ -1,6 +1,6 @@
 import { client } from "#client";
 import { Collection } from "@discordjs/collection";
-import { BaseGuildVoiceChannel, Snowflake } from "discord.js";
+import { type BaseGuildVoiceChannel, Snowflake } from "discord.js";
 import Enmap from "enmap";
 import { tempVoice } from "./util.js";
 
@@ -46,3 +46,4 @@ export class tempVoiceManager {
     return this.database.set(userId, data);
   }
 }
+

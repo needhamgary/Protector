@@ -13,7 +13,6 @@ import { createRequire } from "module";
 import { SparkAdapter } from "#adapters";
 import { tempVoiceManager } from "./helpers/tempChannels.js";
 import pkg from "mongoose";
-import path from "path";
 
 export let devMode: boolean = false;
 if (process.argv[2] === "--dev") {

@@ -1,6 +1,6 @@
 import { EventType, eventModule } from "@sern/handler";
-import { Colors, EmbedBuilder, Message, TextChannel } from "discord.js";
-import  {sticky}  from "../../mongo/models/sticky.js";
+import { Colors, EmbedBuilder, Message, type TextChannel } from "discord.js";
+import { sticky } from "../../mongo/models/sticky.js";
 
 export default eventModule({
   type: EventType.Discord,
@@ -48,3 +48,4 @@ export default eventModule({
     }
   },
 });
+
