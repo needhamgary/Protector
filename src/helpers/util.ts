@@ -8,27 +8,6 @@ import type {
 } from "discord.js";
 import { load } from "ts-dotenv";
 
-export class Util {
-  static parseChannelName(name: string, user?: User) {
-    return name
-      .replace("{user.username}", user?.username!)
-      .replace("{user.tag}", user?.tag!);
-  }
-}
-
-export interface tempVoice {
-  ownerId: Snowflake;
-  channelId: Snowflake;
-  parentChannelId: Snowflake;
-  guildId: Snowflake;
-}
-
-export const userChannelPermissions: PermissionResolvable[] = [
-  "ManageChannels",
-];
-export const tempVoiceName: string = "{user.username}'s Channel";
-export const parentTempVoiceId: Snowflake[] = ["1071423461651664978"];
-
 export const env = load({
   token: String,
   appid: String,
@@ -50,4 +29,14 @@ export async function whitelistAdd(client: Client, user: string) {
   )) as TextChannel;
   return chan.send(`whitelist add ${user}`);
 }
+
+export const temp_channels = {
+  hubs: [
+    {
+      category_id: "1070233836799148061",
+      create_channel_id: "1071423461651664978",
+      format: `{USER}'s voice`,
+    },
+  ],
+};
 

@@ -11,7 +11,6 @@ import {
 import wait from "node:timers/promises";
 import { createRequire } from "module";
 import { SparkAdapter } from "#adapters";
-import { tempVoiceManager } from "./helpers/tempChannels.js";
 import pkg from "mongoose";
 
 export let devMode: boolean = false;
@@ -51,7 +50,6 @@ interface MyDependencies extends Dependencies {
   "@sern/errors": Singleton<ErrorHandling>;
   "@sern/store": Singleton<ModuleStoreWithLogger>;
   mongoose: Singleton<pkg.Connection>;
-  temps: Singleton<tempVoiceManager>;
 }
 /**
  * Where all of your dependencies are composed.
@@ -78,7 +76,6 @@ export const useContainer = Sern.makeDependencies<MyDependencies>({
         };
       })
       .add({ mongoose: single(() => pkg.connection) })
-      .add({ temps: single(() => new tempVoiceManager()) })
       .addDisposer({
         mongoose: (ctx) => {
           ctx.destroy(true);
